@@ -1,4 +1,4 @@
-#include <iostream>
+#include <iostream> 
 #include <stdlib.h>
 using namespace std;
 typedef struct TNode{
@@ -6,10 +6,6 @@ typedef struct TNode{
   struct TNode *left;
   struct TNode *right;
 }TNode,*Position;
-/*
-void function(char *a);
-void Tra1(Position BT);
-*/
 void Tra1(Position BT)
 {
   if(BT)
@@ -21,9 +17,6 @@ void Tra1(Position BT)
 }
 void function(char *a)
 {
-  Position chu=(Position)malloc(sizeof(TNode));
-  chu->data='\0';
-  chu->left=chu->right=NULL;
   Position T=(Position)malloc(sizeof(TNode));
   if(a[0]!='#')
   {
@@ -36,21 +29,23 @@ void function(char *a)
     cout<<0<<endl;
   }
   int num=0;
-  TNode *stack[10]={0};
+  TNode *stack[10];
   stack[1]=T;
-  stack[0]=chu;
+  stack[0]=(Position)malloc(sizeof(TNode)); //stack[0]一定要有初值指向一个TNode结构体,不然后面调用到stack[0]时会蓝屏闪退！！！ 
   int top=2,p=0;
-  for(int i=1;a[i]=='#'||(a[i]>=65&&a[i]<=90);i++)
+  for(int i=1;a[i]!='\0';i++)
   {
-    if(a[i]=='#')
+	if(a[i]=='#')
     {
-      if(p==0) p++;
-      if(p==1)
+      if(p==0)
+	  {
+	  	p++;
+	   } 
+      else
       {
-        while(stack[top-2]->right==stack[top-1]) top--;
-        //if(stack[top-2].right==stack[top-1]) top--;
+        if(stack[top-1]->left==NULL) num++;
+		while(stack[top-2]->right==stack[top-1]) top--;
         top--;
-        num++;
       }
     }
     else
@@ -58,14 +53,13 @@ void function(char *a)
       Position q=(Position)malloc(sizeof(TNode));
       q->data=a[i];
       q->left=q->right=NULL;
-      cout<<1;
 	  if(p==0)
       {
-        stack[top-1]->left=q;
+		stack[top-1]->left=q;
         stack[top]=q;
         top++;
       }
-      if(p==1)
+      else
       {
         stack[top-1]->right=q;
         stack[top]=q;
@@ -80,7 +74,7 @@ void function(char *a)
 }
 int main()
 {
-  char a[10000]={"ABC##DE#G##F###\0"};
-  //cin>>a;
+  char a[100];
+  cin>>a;
   function(a);
 }
