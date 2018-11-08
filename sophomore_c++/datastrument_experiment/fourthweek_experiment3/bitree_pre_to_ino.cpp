@@ -6,9 +6,10 @@ typedef struct TNode{
   struct TNode *left;
   struct TNode *right;
 }TNode,*Position;
-
-void function(char a[]);
+/*
+void function(char *a);
 void Tra1(Position BT);
+*/
 void Tra1(Position BT)
 {
   if(BT)
@@ -18,7 +19,7 @@ void Tra1(Position BT)
     Tra1(BT->right);
   }
 }
-void function(char a[])
+void function(char *a)
 {
   Position chu=(Position)malloc(sizeof(TNode));
   chu->data='\0';
@@ -35,9 +36,9 @@ void function(char a[])
     cout<<0<<endl;
   }
   int num=0;
-  TNode *stack[100];
+  TNode *stack[10]={0};
   stack[1]=T;
-  stach[0]=chu;
+  stack[0]=chu;
   int top=2,p=0;
   for(int i=1;a[i]=='#'||(a[i]>=65&&a[i]<=90);i++)
   {
@@ -46,7 +47,7 @@ void function(char a[])
       if(p==0) p++;
       if(p==1)
       {
-        while((stack[top-2]->right)==stack[top-1]) top--;
+        while(stack[top-2]->right==stack[top-1]) top--;
         //if(stack[top-2].right==stack[top-1]) top--;
         top--;
         num++;
@@ -64,7 +65,7 @@ void function(char a[])
         stack[top]=q;
         top++;
       }
-      else if(p==1)
+      if(p==1)
       {
         stack[top-1]->right=q;
         stack[top]=q;
@@ -79,7 +80,7 @@ void function(char a[])
 }
 int main()
 {
-  char a[10000];
-  cin>>a;
+  char a[10000]={"ABC##DE#G##F###\0"};
+  //cin>>a;
   function(a);
 }
